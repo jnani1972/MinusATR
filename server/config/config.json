@@ -1,0 +1,26 @@
+{
+    "development": {
+      "username": "saadnadeem",
+      "password": "",
+      "database": "minusatr",
+      "host": "localhost",
+      "port": 5432,
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "saadnadeem",
+      "password": "",
+      "database": "minusATR_test",
+      "host": "localhost",
+      "port": 5432,
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "saadnadeem",
+      "password": "",
+      "database": "minusATR_prod",
+      "host": "localhost",
+      "port": 5432,
+      "dialect": "postgres"
+    }
+  }

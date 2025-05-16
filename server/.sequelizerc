@@ -1,0 +1,8 @@
+require('dotenv').config();
+
+module.exports = {
+  config: './config/config.json',
+  'models-path': './models',
+  'migrations-path': './migrations',
+  'seeders-path': './seeders',
+};
