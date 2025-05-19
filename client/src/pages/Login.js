@@ -18,14 +18,18 @@ const Login = () => {
             headers: { 'x-username': username },
           });
           console.log("Token check response:", response.data);
-          if (response.data.message !== "No token found") {
-            navigate("/dashboard");
-          } else {
+
+          if (response.data.message === "Invalid token" || response.data.message === "No token found") {
+            console.log("Token invalid or not found, generating new token...");
             generateToken();
+          } else {
+            console.log("Token is valid, navigating to dashboard...");
+            navigate("/dashboard");
           }
         } catch (err) {
-          console.error("Error checking access token:", err);
-          alert("Failed to check access token. Please try again.");
+          console.error("Error checking access token:", err.response ? err.response.data : err.message);
+          alert("Failed to check access token. Attempting to generate a new one.");
+          generateToken();
         }
       };
       checkToken();
