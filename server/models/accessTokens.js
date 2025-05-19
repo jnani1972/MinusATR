@@ -13,7 +13,7 @@ const AccessTokens = sequelize.define('AccessTokens', {
     allowNull: false,
   },
   access_token: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(1000), // Increased length to 1000 characters
     allowNull: false,
   },
   expires_at: {

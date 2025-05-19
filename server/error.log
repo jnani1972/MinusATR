@@ -1,0 +1,7 @@
+{"level":"error","message":"Error in generateAccessToken: Invalid URL","timestamp":"2025-05-19T15:11:37.564Z"}
+{"level":"error","message":"Error in generateAccessToken: Request failed with status code 401","timestamp":"2025-05-19T15:20:07.509Z"}
+{"level":"error","message":"Error in generateAccessToken: Request failed with status code 401","timestamp":"2025-05-19T15:21:23.224Z"}
+{"level":"error","message":"Error in generateAccessToken: Request failed with status code 401","timestamp":"2025-05-19T15:26:16.952Z"}
+{"level":"error","message":"Error in generateAccessToken: Request failed with status code 401","timestamp":"2025-05-19T15:27:11.871Z"}
+{"level":"error","message":"Error in generateAccessToken: value too long for type character varying(255)","timestamp":"2025-05-19T16:02:50.495Z"}
+{"level":"error","message":"Error in generateAccessToken: Request failed with status code 401","timestamp":"2025-05-19T16:37:35.044Z"}

@@ -15,10 +15,22 @@ class UpstoxService {
       where: { user_id: user.id },
       order: [['created_at', 'DESC']],
     });
-    if (!token || new Date(token.expires_at) < new Date()) {
+    if (!token) {
       return { message: 'No token found' };
     }
-    return { access_token: token.access_token };
+
+    // Validate token with Upstox API
+    try {
+      await axios.get(`${process.env.UPSTOX_BASE_URL}/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: 'application/json',
+        },
+      });
+      return { access_token: token.access_token };
+    } catch (err) {
+      return { message: 'Invalid token' };
+    }
   }
 
   static async generateAccessToken(data) {
@@ -34,23 +46,34 @@ class UpstoxService {
       "Accept": "application/json",
     };
     const payload = {
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: process.env.UPSTOX_API_KEY,
+      client_secret: process.env.UPSTOX_API_SECRET,
       code,
       grant_type: "authorization_code",
-      redirect_uri: process.env.REDIRECT_URI,
+      redirect_uri: process.env.UPSTOX_REDIRECT_URI,
     };
+
 
     const response = await axios.post(url, new URLSearchParams(payload).toString(), { headers });
     const accessToken = response.data.access_token;
     const expiresIn = response.data.expires_in || 86400; // Default to 24 hours if not provided
     const expiresAt = new Date(Date.now() + expiresIn * 1000);
 
-    await AccessTokens.create({
-      user_id: user.id,
-      access_token: accessToken,
-      expires_at: expiresAt,
-    });
+    // Check for existing token and update instead of creating a new one
+    const existingToken = await AccessTokens.findOne({ where: { user_id: user.id } });
+    if (existingToken) {
+      await existingToken.update({
+        access_token: accessToken,
+        expires_at: expiresAt,
+        updated_at: new Date(),
+      });
+    } else {
+      await AccessTokens.create({
+        user_id: user.id,
+        access_token: accessToken,
+        expires_at: expiresAt,
+      });
+    }
 
     return { access_token: accessToken };
   }
